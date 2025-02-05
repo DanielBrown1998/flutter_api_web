@@ -1,2 +1,2 @@
 # flutter_api_web
-aplicação que utiliza uma api rest.
+aplicação em flutter que utiliza uma api rest.
