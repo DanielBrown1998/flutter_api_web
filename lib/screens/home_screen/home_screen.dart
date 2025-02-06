@@ -5,7 +5,7 @@ import 'package:alura_web_api_app_v2/screens/home_screen/widgets/home_screen_lis
 import '../../models/journal.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
