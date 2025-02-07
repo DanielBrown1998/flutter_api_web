@@ -6,7 +6,8 @@ import 'screens/home_screen/home_screen.dart';
 void main() {
   runApp(const MyApp());
   JournalService service = JournalService();
-  service.register("Olá mundo!");
+  service.register(r"olá, mundo!");
+  service.get();
 }
 
 class MyApp extends StatelessWidget {
