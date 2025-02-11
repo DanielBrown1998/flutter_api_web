@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:alura_web_api_app_v2/helpers/weekday.dart';
 import 'package:alura_web_api_app_v2/models/journal.dart';
+import 'package:uuid/uuid.dart';
 
 class JournalCard extends StatelessWidget {
   final Journal? journal;
@@ -78,7 +79,9 @@ class JournalCard extends StatelessWidget {
       );
     } else {
       return InkWell(
-        onTap: () {},
+        onTap: () {
+          callAddJournalScreen(context);
+        },
         child: Container(
           height: 115,
           alignment: Alignment.center,
@@ -91,4 +94,14 @@ class JournalCard extends StatelessWidget {
       );
     }
   }
+  void callAddJournalScreen(BuildContext context) {
+    Navigator.pushNamed(context, "add-journal",
+        arguments: Journal(
+            id: const Uuid().v1(),
+            content: "",
+            createdAt: showedDate,
+            updatedAt: showedDate));
+  }
 }
+
+
