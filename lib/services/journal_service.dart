@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:alura_web_api_app_v2/models/journal.dart';
 import 'package:alura_web_api_app_v2/services/http_interceptors.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http/http.dart';
@@ -9,17 +10,20 @@ http.Client client =
 
 class JournalService {
   static const String url = "http://192.168.1.3:3000/";
-  static const String resource = "learnhttp/";
-  static JsonEncoder encoder = JsonEncoder();
-  static String getUrl() => url + resource;
+  static const String resource = "journals/";
+  static String getUrl() => "$url$resource";
 
-  register(String content) async {
-    var response = await http.post(
+  Future<bool> register(Journal journal) async {
+    String jsonJournal = json.encode(journal.toMap());
+    http.Response response = await client.post(
       Uri.parse(getUrl()),
-      body: encoder.convert({'content': content}),
+      headers: {"Content-type": "application/json"},
+      body: jsonJournal,
     );
-    print(response.body);
-    return response.body;
+    if (response.statusCode == 201) {
+      return true;
+    }
+    return false;
   }
 
   Future<String> get() async {
