@@ -26,9 +26,16 @@ class JournalService {
     return false;
   }
 
-  Future<String> get() async {
-    http.Response response = await http.get(Uri.parse(getUrl()));
-    print(response.body);
-    return response.body;
+  Future<List<Journal>> getAll() async {
+    http.Response response = await client.get(Uri.parse(getUrl()));
+    if (response.statusCode != 200) {
+      throw Exception();
+    }
+    List<Journal> lista = [];
+    List<dynamic> listaDynamic = json.decode(response.body);
+    for (var value in listaDynamic) {
+      lista.add(Journal.fromMap(value));
+    }
+    return lista;
   }
 }

@@ -1,4 +1,41 @@
 {
-    "learnhttp": {},
-    "journals": []
+  "learnhttp": {},
+  "journals": [
+    {
+      "id": "d0796480-ea04-11ef-998c-39b3ced8e39f",
+      "content": "estudei python",
+      "created_at": "2025-02-06 09:19:01.974428",
+      "updated_at": "2025-02-06 09:19:01.974428"
+    },
+    {
+      "id": "e8d97970-ea04-11ef-a4d0-f1c8f5d6236d",
+      "content": " flutter and dart",
+      "created_at": "2025-02-07 09:20:13.199043",
+      "updated_at": "2025-02-07 09:20:13.199043"
+    },
+    {
+      "id": "545cf910-ea05-11ef-a337-17b9ee62f487",
+      "content": "estudei Django ",
+      "created_at": "2025-02-08 09:23:23.704792",
+      "updated_at": "2025-02-08 09:23:23.704792"
+    },
+    {
+      "id": "6047a9a0-ea05-11ef-a337-17b9ee62f487",
+      "content": "estudei Docker ",
+      "created_at": "2025-02-09 09:23:23.704792",
+      "updated_at": "2025-02-09 09:23:23.704792"
+    },
+    {
+      "id": "764abbc0-ea05-11ef-a337-17b9ee62f487",
+      "content": "estudei Lógica ",
+      "created_at": "2025-02-07 09:23:23.704792",
+      "updated_at": "2025-02-07 09:23:23.704792"
+    },
+    {
+      "id": "87d548a0-ea06-11ef-af30-975e4512812b",
+      "content": "estudei CSS",
+      "created_at": "2025-02-04 09:31:57.328365",
+      "updated_at": "2025-02-04 09:31:57.328365"
+    }
+  ]
 }

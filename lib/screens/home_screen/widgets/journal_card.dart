@@ -6,7 +6,8 @@ import 'package:uuid/uuid.dart';
 class JournalCard extends StatelessWidget {
   final Journal? journal;
   final DateTime showedDate;
-  const JournalCard({super.key, this.journal, required this.showedDate});
+  final Function refresh;
+  const JournalCard({super.key, this.journal, required this.showedDate, required this.refresh});
 
   @override
   Widget build(BuildContext context) {
@@ -104,10 +105,13 @@ class JournalCard extends StatelessWidget {
                 updatedAt: showedDate))
         .then((value) {
       if (value != null && value == true) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("registro feito com sucesso")));
-      }else{
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("registro não realizado")));
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("registro feito com sucesso")));
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("registro não realizado")));
       }
+      refresh();
     });
   }
 }

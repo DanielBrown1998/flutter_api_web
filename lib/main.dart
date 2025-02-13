@@ -1,4 +1,3 @@
-import 'package:alura_web_api_app_v2/services/journal_service.dart';
 import 'package:alura_web_api_app_v2/screens/add_journal_screen/add_journal_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,9 +7,9 @@ import 'package:alura_web_api_app_v2/models/journal.dart';
 
 void main() {
   runApp(const MyApp());
-  JournalService service = JournalService();
-  service.register(Journal.empty());
-  //service.get();
+  //JournalService service = JournalService();
+  //service.register(Journal.empty());
+  //service.getAll();
   //asyncStudy();
 }
 
