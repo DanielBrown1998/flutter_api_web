@@ -7,10 +7,6 @@ import 'package:alura_web_api_app_v2/models/journal.dart';
 
 void main() {
   runApp(const MyApp());
-  //JournalService service = JournalService();
-  //service.register(Journal.empty());
-  //service.getAll();
-  //asyncStudy();
 }
 
 class MyApp extends StatelessWidget {

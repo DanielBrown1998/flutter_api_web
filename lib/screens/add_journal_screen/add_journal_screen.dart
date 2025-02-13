@@ -42,13 +42,14 @@ class AddJournalScreen extends StatelessWidget {
     );
   }
 
-  registerJournal(BuildContext context) async {
+  registerJournal(BuildContext context) {
     String content = _contentController.text;
     JournalService service = JournalService();
     journal.content = content;
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text("inserindo...")));
-    bool result = await service.register(journal);
-    Navigator.pop(context, result);
+    service.register(journal).then((value) {      
+      Navigator.pop(context, value);
+    });
   }
 }

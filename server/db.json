@@ -36,6 +36,18 @@
       "content": "estudei CSS",
       "created_at": "2025-02-04 09:31:57.328365",
       "updated_at": "2025-02-04 09:31:57.328365"
+    },
+    {
+      "id": "a5549830-ea07-11ef-a900-4f7bdb19495d",
+      "content": "estudei automação ",
+      "created_at": "2025-02-04 09:39:25.110746",
+      "updated_at": "2025-02-04 09:39:25.110746"
+    },
+    {
+      "id": "5a9efa10-ea0c-11ef-ac2a-678b5bb9d4be",
+      "content": "estudei Dart",
+      "created_at": "2025-02-04 10:13:17.421586",
+      "updated_at": "2025-02-04 10:13:17.421586"
     }
   ]
 }
