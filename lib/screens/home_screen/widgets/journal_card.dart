@@ -7,13 +7,19 @@ class JournalCard extends StatelessWidget {
   final Journal? journal;
   final DateTime showedDate;
   final Function refresh;
-  const JournalCard({super.key, this.journal, required this.showedDate, required this.refresh});
+  const JournalCard(
+      {super.key,
+      this.journal,
+      required this.showedDate,
+      required this.refresh});
 
   @override
   Widget build(BuildContext context) {
     if (journal != null) {
       return InkWell(
-        onTap: () {},
+        onTap: () {
+          callAddJournalScreen(context, journal: journal);
+        },
         child: Container(
           height: 115,
           margin: const EdgeInsets.all(8),
@@ -96,13 +102,18 @@ class JournalCard extends StatelessWidget {
     }
   }
 
-  void callAddJournalScreen(BuildContext context) {
-    Navigator.pushNamed(context, "add-journal",
-            arguments: Journal(
-                id: const Uuid().v1(),
-                content: "",
-                createdAt: showedDate,
-                updatedAt: showedDate))
+  void callAddJournalScreen(BuildContext context, {Journal? journal}) {
+    Journal innerJournal = Journal(
+        id: const Uuid().v1(),
+        content: "",
+        createdAt: showedDate,
+        updatedAt: showedDate);
+
+    if (journal != null) {
+      innerJournal = journal;
+    }
+
+    Navigator.pushNamed(context, "add-journal", arguments: innerJournal)
         .then((value) {
       if (value != null && value == true) {
         ScaffoldMessenger.of(context).showSnackBar(

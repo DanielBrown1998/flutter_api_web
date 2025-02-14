@@ -2,58 +2,28 @@
   "learnhttp": {},
   "journals": [
     {
-      "id": "d0796480-ea04-11ef-998c-39b3ced8e39f",
-      "content": "estudei python",
-      "created_at": "2025-02-06 09:19:01.974428",
-      "updated_at": "2025-02-06 09:19:01.974428"
+      "id": "e4adf620-eade-11ef-9852-cf57b4ca7ded",
+      "content": "estudei flutter",
+      "created_at": "2025-02-04 11:03:57.354818",
+      "updated_at": "2025-02-04 11:03:57.354818"
     },
     {
-      "id": "e8d97970-ea04-11ef-a4d0-f1c8f5d6236d",
-      "content": " flutter and dart",
-      "created_at": "2025-02-07 09:20:13.199043",
-      "updated_at": "2025-02-07 09:20:13.199043"
+      "id": "fac92420-eade-11ef-a822-cf5ebddc33b3",
+      "content": "estudei flutter",
+      "created_at": "2025-02-05 11:21:24.189128",
+      "updated_at": "2025-02-05 11:21:24.189128"
     },
     {
-      "id": "545cf910-ea05-11ef-a337-17b9ee62f487",
-      "content": "estudei Django ",
-      "created_at": "2025-02-08 09:23:23.704792",
-      "updated_at": "2025-02-08 09:23:23.704792"
+      "id": "08d4dff0-eadf-11ef-a822-cf5ebddc33b3",
+      "content": "estudei Flutter",
+      "created_at": "2025-02-14 11:21:24.189128",
+      "updated_at": "2025-02-14 11:21:24.189128"
     },
     {
-      "id": "6047a9a0-ea05-11ef-a337-17b9ee62f487",
-      "content": "estudei Docker ",
-      "created_at": "2025-02-09 09:23:23.704792",
-      "updated_at": "2025-02-09 09:23:23.704792"
-    },
-    {
-      "id": "764abbc0-ea05-11ef-a337-17b9ee62f487",
-      "content": "estudei Lógica ",
-      "created_at": "2025-02-07 09:23:23.704792",
-      "updated_at": "2025-02-07 09:23:23.704792"
-    },
-    {
-      "id": "87d548a0-ea06-11ef-af30-975e4512812b",
-      "content": "estudei CSS",
-      "created_at": "2025-02-04 09:31:57.328365",
-      "updated_at": "2025-02-04 09:31:57.328365"
-    },
-    {
-      "id": "a5549830-ea07-11ef-a900-4f7bdb19495d",
-      "content": "estudei automação ",
-      "created_at": "2025-02-04 09:39:25.110746",
-      "updated_at": "2025-02-04 09:39:25.110746"
-    },
-    {
-      "id": "5a9efa10-ea0c-11ef-ac2a-678b5bb9d4be",
-      "content": "estudei Dart",
-      "created_at": "2025-02-04 10:13:17.421586",
-      "updated_at": "2025-02-04 10:13:17.421586"
-    },
-    {
-      "id": "9fb716c0-ea0f-11ef-8cf2-311337623f60",
-      "content": "estudando Flutter",
-      "created_at": "2025-02-09 10:36:51.946654",
-      "updated_at": "2025-02-09 10:36:51.946654"
+      "id": "8d6866c0-eae3-11ef-acd9-e5a34638a352",
+      "content": "estudando Django",
+      "created_at": "2025-02-10 11:53:53.303832",
+      "updated_at": "2025-02-10 11:53:53.303832"
     }
   ]
 }

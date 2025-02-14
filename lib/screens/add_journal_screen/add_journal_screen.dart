@@ -10,6 +10,7 @@ class AddJournalScreen extends StatelessWidget {
   final TextEditingController _contentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    _contentController.text = journal.content;
     return Scaffold(
       appBar: AppBar(
         title:
@@ -42,14 +43,30 @@ class AddJournalScreen extends StatelessWidget {
     );
   }
 
-  registerJournal(BuildContext context) {
+  registerJournal(BuildContext context) async {
     String content = _contentController.text;
     JournalService service = JournalService();
     journal.content = content;
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text("inserindo...")));
-    service.register(journal).then((value) {      
-      Navigator.pop(context, value);
-    });
+    bool insert = false;
+    List<Journal> journals = await service.getAll();
+    for (Journal item in journals) {
+      if (item.id == journal.id) {
+        insert = true;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("atualizando...")));
+        service.edit(journal.id, journal).then((value) {
+          Navigator.pop(context, value);
+        });
+        break;
+      }
+    }
+    if (!insert) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("inserindo...")));
+
+      service.register(journal).then((value) {
+        Navigator.pop(context, value);
+      });
+    }
   }
 }
