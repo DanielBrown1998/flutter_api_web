@@ -22,7 +22,7 @@ List<JournalCard> generateListJournalCards(
       int difference = value.createdAt
           .difference(currentDay.subtract(Duration(days: windowPage)))
           .inDays
-          .abs();
+          .abs()+1;
 
       list[difference] = JournalCard(
         showedDate: list[difference].showedDate,
