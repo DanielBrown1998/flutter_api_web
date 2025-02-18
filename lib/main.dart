@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'screens/home_screen/home_screen.dart';
 import 'package:alura_web_api_app_v2/models/journal.dart';
-//import 'helpers/async_study.dart';
 
 void main() {
   runApp(const MyApp());
