@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:alura_web_api_app_v2/helpers/weekday.dart';
 import 'package:alura_web_api_app_v2/models/journal.dart';
 import 'package:uuid/uuid.dart';
+import 'package:alura_web_api_app_v2/services/journal_service.dart';
+import 'package:alura_web_api_app_v2/screens/common/confirmation_dialog.dart';
 
 class JournalCard extends StatelessWidget {
   final Journal? journal;
@@ -15,6 +17,7 @@ class JournalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    JournalService service = JournalService();
     if (journal != null) {
       return InkWell(
         onTap: () {
@@ -79,6 +82,36 @@ class JournalCard extends StatelessWidget {
                     maxLines: 3,
                   ),
                 ),
+              ),
+              IconButton(
+                onPressed: () {
+                  var confirmationDialog = showConfirmationDialog(
+                    context, 
+                    content: 'Deseja excluir este registro?',
+                    confirmation: 'sim',
+                    cancel: 'não',
+                    );
+                  confirmationDialog.then((value) {
+                    if (value == false) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("registro não removido")));
+                      return;
+                      }
+                    service.removeJournal(journal!.id).then((value) {
+                      if (value) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("registro removido")));
+                        refresh();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Houve um ERROR ao remover")));
+                      }
+                    });
+                  });
+                },
+                icon: const Icon(Icons.delete),
               ),
             ],
           ),
