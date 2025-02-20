@@ -1,5 +1,11 @@
 {
-  "learnhttp": {},
+  "users": [
+    {
+      "email": "daniel@xpto.com",
+      "password": "$2a$10$Y15.CY4OVmwbqulj5SeAdenF84jMU./PdI6Kwr6fK1CQLQ193svr2",
+      "id": 1
+    }
+  ],
   "journals": [
     {
       "id": "e4adf620-eade-11ef-9852-cf57b4ca7ded",
