@@ -4,6 +4,21 @@
       "email": "daniel@xpto.com",
       "password": "$2a$10$Y15.CY4OVmwbqulj5SeAdenF84jMU./PdI6Kwr6fK1CQLQ193svr2",
       "id": 1
+    },
+    {
+      "email": "daniel@email.com",
+      "password": "$2a$10$XmKP2zHQ3kUbcC4sVydtbusUF5cGkH6HllSL4e.OCfmyeTUutv5gm",
+      "id": 2
+    },
+    {
+      "email": "daniel@outlook.com",
+      "password": "$2a$10$zh/ECpu8s9zimsPqgceKWOWO6UM0Lwb.A4LDvSzyKl2pAKcHt7/EC",
+      "id": 3
+    },
+    {
+      "email": "daniel@hotmail.com",
+      "password": "$2a$10$mlIF/ot2O3//7UVfUeg7TOwpK1c.oLGKOjFyz.dobpEE4o3/u4RFS",
+      "id": 4
     }
   ],
   "journals": [

@@ -2,6 +2,7 @@ import 'package:alura_web_api_app_v2/screens/add_journal_screen/add_journal_scre
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'screens/home_screen/home_screen.dart';
+import 'screens/login_screen/login_screen.dart';
 import 'package:alura_web_api_app_v2/models/journal.dart';
 
 void main() {
@@ -29,9 +30,10 @@ class MyApp extends StatelessWidget {
       ),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.light,
-      initialRoute: "home",
+      initialRoute: "login",
       routes: {
         "home": (context) => const HomeScreen(),
+        "login": (context) => LoginScreen(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == "add-journal") {
