@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:alura_web_api_app_v2/screens/common/confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:alura_web_api_app_v2/services/auth_service.dart';
@@ -57,8 +59,8 @@ class LoginScreen extends StatelessWidget {
                   ElevatedButton(
                       onPressed: () {
                         login(context,
-                            email: _emailController.text.toString(),
-                            password: _passwordController.text.toString());
+                            email: _emailController.text,
+                            password: _passwordController.text);
                       },
                       child: const Text("Continuar")),
                 ],
@@ -79,35 +81,42 @@ class LoginScreen extends StatelessWidget {
       }
     } on UserNotFindException {
       showConfirmationDialog(context,
-          title: "Usuário não encontrado",
-          content: "Deseja se registrar com os dados passados?",
-          confirmation: "Registrar",
-          cancel: "Cancelar")
+              title: "Usuário não encontrado",
+              content: "Deseja se registrar com os dados passados?",
+              confirmation: "Registrar",
+              cancel: "Cancelar")
           .then((value) {
         if (value != null && value) {
-          try{
-          authService.register(email: email, password: password);
-          Navigator.pushNamed(context, "home");
-          ScaffoldMessenger.of(context)
-              .showSnackBar(
-                SnackBar(
-                  content: Text("Usuário registrado com sucesso!"), 
-                  backgroundColor: Colors.green,),
-                  );
-          }on(UserNotRegisterException,){      
-          ScaffoldMessenger.of(context)
-              .showSnackBar(
-                SnackBar(
-                  content: Text("Usuário não foi registrado..."), 
-                  backgroundColor: Colors.red,),
-                  );
-          }catch(error){
+          try {
+            authService.register(email: email, password: password);
+            Navigator.pushNamed(context, "home");
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Usuário registrado com sucesso!"),
+                backgroundColor: Colors.green,
+              ),
+            );
+          } on (UserNotRegisterException,) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Usuário não foi registrado..."),
+                backgroundColor: Colors.red,
+              ),
+            );
+          } catch (error) {
             print(error);
           }
         }
       });
-    } catch (error) {
-      print(error);
+    } on HttpException catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Erro ${error.message}"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } on Exception catch (error) {
+      print("ERRO: $error");
     }
   }
 }
