@@ -5,15 +5,16 @@ import 'package:http_interceptor/http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:alura_web_api_app_v2/services/http_interceptors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:alura_web_api_app_v2/services/ip_server.dart' as ip;
 
 class AuthService {
   //TODO: modularizar a url;
-  static const String url = "http://192.168.1.3:3000/";
+  static String url = ip.URL;
 
   http.Client client =
       InterceptedClient.build(interceptors: [LoggingInterceptor()]);
 
-  login({required String email, required String password}) async {
+  Future<bool> login({required String email, required String password}) async {
     Map<String, dynamic> data = {"email": email, "password": password};
 
     http.Response response =
@@ -31,7 +32,8 @@ class AuthService {
     return true;
   }
 
-  register({required String email, required String password}) async {
+  Future<bool> register(
+      {required String email, required String password}) async {
     Map<String, dynamic> data = {"email": email, "password": password};
 
     http.Response response =
@@ -41,21 +43,20 @@ class AuthService {
       throw UserNotRegisterException(response.statusCode as String);
     }
     saveUserInfos(response.body);
+    return true;
   }
 
   Future<bool> saveUserInfos(String body) async {
     var map = json.decode(body);
 
-    String token = map['token'];
+    String token = map['accessToken'];
     String email = map['user']['email'];
-    int id = int.parse(map['user']['id']);
+    String id = map['user']['id'].toString();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('token', token);
+    prefs.setString('accessToken', token);
     prefs.setString('email', email);
-    prefs.setInt('id', id);
-
-    String? tokenSave = prefs.getString('token');
+    prefs.setString('id', id);
 
     return true;
   }

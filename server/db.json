@@ -25,20 +25,25 @@
     {
       "id": "e4adf620-eade-11ef-9852-cf57b4ca7ded",
       "content": "estudei flutter",
-      "created_at": "2025-02-04 11:03:57.354818",
-      "updated_at": "2025-02-04 11:03:57.354818"
+      "created_at": "2025-02-20 11:03:57.354818",
+      "updated_at": "2025-02-20 11:03:57.354818",
+      "userId": 2
     },
     {
       "id": "fac92420-eade-11ef-a822-cf5ebddc33b3",
       "content": "estudei flutter",
       "created_at": "2025-02-05 11:21:24.189128",
-      "updated_at": "2025-02-05 11:21:24.189128"
+      "updated_at": "2025-02-05 11:21:24.189128",
+      "userId": 3
+
     },
     {
       "id": "8d6866c0-eae3-11ef-acd9-e5a34638a352",
       "content": "estudando Django",
-      "created_at": "2025-02-10 11:53:53.303832",
-      "updated_at": "2025-02-10 11:53:53.303832"
+      "created_at": "2025-02-19 11:53:53.303832",
+      "updated_at": "2025-02-19 11:53:53.303832",
+      "userId": 1
+
     }
   ]
 }

@@ -76,6 +76,7 @@ class LoginScreen extends StatelessWidget {
       {required String email, required String password}) async {
     try {
       bool result = await authService.login(email: email, password: password);
+
       if (result) {
         Navigator.pushReplacementNamed(context, "home");
       }
@@ -88,14 +89,19 @@ class LoginScreen extends StatelessWidget {
           .then((value) {
         if (value != null && value) {
           try {
-            authService.register(email: email, password: password);
-            Navigator.pushNamed(context, "home");
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Usuário registrado com sucesso!"),
-                backgroundColor: Colors.green,
-              ),
-            );
+            authService
+                .register(email: email, password: password)
+                .then((bool value) {
+              if (value) {
+                Navigator.pushNamed(context, "home");
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Usuário registrado com sucesso!"),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              }
+            });
           } on (UserNotRegisterException,) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

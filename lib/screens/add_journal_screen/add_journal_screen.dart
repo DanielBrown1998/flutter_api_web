@@ -2,10 +2,13 @@ import 'package:alura_web_api_app_v2/helpers/weekday.dart';
 import 'package:alura_web_api_app_v2/models/journal.dart';
 import 'package:alura_web_api_app_v2/services/journal_service.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddJournalScreen extends StatelessWidget {
   final Journal journal;
   AddJournalScreen({super.key, required this.journal});
+
+  SharedPreferences prefs = SharedPreferences.getInstance() as SharedPreferences;
 
   final TextEditingController _contentController = TextEditingController();
   @override
@@ -48,7 +51,10 @@ class AddJournalScreen extends StatelessWidget {
     JournalService service = JournalService();
     journal.content = content;
     bool insert = false;
-    List<Journal> journals = await service.getAll();
+    List<Journal> journals = await service.getAll(
+        id: prefs.getString('id') as String,
+        token: prefs.getString('accessToken') as String
+    );
     for (Journal item in journals) {
       if (item.id == journal.id) {
         insert = true;

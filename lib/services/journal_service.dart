@@ -4,9 +4,11 @@ import 'package:alura_web_api_app_v2/models/journal.dart';
 import 'package:alura_web_api_app_v2/services/http_interceptors.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http/http.dart';
+import 'package:alura_web_api_app_v2/services/ip_server.dart' as ip;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class JournalService {
-  static const String url = "http://192.168.1.3:3000/";
+  static String url = ip.URL;
   static const String resource = "journals/";
   static String getUrl() => "$url$resource";
   http.Client client =
@@ -25,8 +27,12 @@ class JournalService {
     return false;
   }
 
-  Future<List<Journal>> getAll() async {
-    http.Response response = await client.get(Uri.parse(getUrl()));
+  Future<List<Journal>> getAll({required String id, required String token}) async {
+    http.Response response = await client.get(
+      Uri.parse('${url}user/$id/$resource'), 
+      headers: {
+        "Authorization": "Bearer $token",
+    });
     if (response.statusCode != 200) {
       throw Exception();
     }

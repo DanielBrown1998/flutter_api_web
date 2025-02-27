@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 //import 'package:alura_web_api_app_v2/database/database.dart';
 import 'package:alura_web_api_app_v2/screens/home_screen/widgets/home_screen_list.dart';
 import 'package:alura_web_api_app_v2/services/journal_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/journal.dart';
 
@@ -51,21 +52,32 @@ class _HomeScreenState extends State<HomeScreen> {
       body: ListView(
         controller: _listScrollController,
         children: generateListJournalCards(
-          windowPage: windowPage,
-          currentDay: currentDay,
-          database: database,
-          refresh: refresh
-        ),
+            windowPage: windowPage,
+            currentDay: currentDay,
+            database: database,
+            refresh: refresh),
       ),
     );
   }
 
-  void refresh() async {
-    List<Journal> listJournal = await service.getAll();
-    setState(() {
-      database = {};
-      for (Journal journal in listJournal) {
-        database[journal.id] = journal;
+  void refresh() {
+    SharedPreferences.getInstance().then((prefs) {
+      String? id = prefs.getString("id");
+      String? email = prefs.getString('email');
+      String? token = prefs.getString("accessToken");
+      if (token != null && id != null && email != null) {
+        service
+            .getAll(id: id, token: token)
+            .then((listJournal) {
+          setState(() {
+            database = {};
+            for (Journal journal in listJournal) {
+              database[journal.id] = journal;
+            }
+          });
+        });
+      }else{
+        Navigator.pushReplacementNamed(context, "login");
       }
     });
   }
