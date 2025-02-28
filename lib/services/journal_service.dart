@@ -27,11 +27,11 @@ class JournalService {
     return false;
   }
 
-  Future<List<Journal>> getAll({required String id, required String token}) async {
-    http.Response response = await client.get(
-      Uri.parse('${url}user/$id/$resource'), 
-      headers: {
-        "Authorization": "Bearer $token",
+  Future<List<Journal>> getAll(
+      {required String id, required String token}) async {
+    http.Response response =
+        await client.get(Uri.parse('${url}user/$id/$resource'), headers: {
+      "Authorization": "Bearer $token",
     });
     if (response.statusCode != 200) {
       throw Exception();
@@ -39,7 +39,16 @@ class JournalService {
     List<Journal> lista = [];
     List<dynamic> listaDynamic = json.decode(response.body);
     for (var value in listaDynamic) {
-      lista.add(Journal.fromMap(value));
+      Map<String, dynamic> newMap = {};
+      value.forEach(
+        (key, value) {
+          if (key == "userId") {
+            value = value.toString();
+          }
+          newMap[key] = value;
+        },
+      );
+      lista.add(Journal.fromMap(newMap));
     }
     return lista;
   }

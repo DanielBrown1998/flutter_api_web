@@ -8,8 +8,6 @@ class AddJournalScreen extends StatelessWidget {
   final Journal journal;
   AddJournalScreen({super.key, required this.journal});
 
-  SharedPreferences prefs = SharedPreferences.getInstance() as SharedPreferences;
-
   final TextEditingController _contentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -51,21 +49,26 @@ class AddJournalScreen extends StatelessWidget {
     JournalService service = JournalService();
     journal.content = content;
     bool insert = false;
-    List<Journal> journals = await service.getAll(
-        id: prefs.getString('id') as String,
-        token: prefs.getString('accessToken') as String
-    );
-    for (Journal item in journals) {
-      if (item.id == journal.id) {
-        insert = true;
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("atualizando...")));
-        service.edit(journal.id, journal).then((value) {
-          Navigator.pop(context, value);
-        });
-        break;
-      }
-    }
+    SharedPreferences.getInstance().then((prefs) {
+      service
+          .getAll(
+              id: prefs.getString('id') as String,
+              token: prefs.getString('accessToken') as String)
+          .then((listJournal) {
+        for (Journal item in listJournal) {
+          if (item.id == journal.id) {
+            insert = true;
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text("atualizando...")));
+            service.edit(journal.id, journal).then((value) {
+              Navigator.pop(context, value);
+            });
+            break;
+          }
+        }
+      });
+    });
+
     if (!insert) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("inserindo...")));
