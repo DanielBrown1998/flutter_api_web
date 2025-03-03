@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:alura_web_api_app_v2/models/journal.dart';
 import 'package:alura_web_api_app_v2/services/http_interceptors.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http/http.dart';
 import 'package:alura_web_api_app_v2/services/ip_server.dart' as ip;
@@ -56,10 +55,10 @@ class JournalService {
     return lista;
   }
 
-  Future<bool> edit(String id, Journal journal, {required String token}) async {
+  Future<bool> edit(Journal journal, {required String token}) async {
     String jsonJournal = json.encode(journal.toMap());
     http.Response response = await client.put(
-      Uri.parse('${getUrl()}$id'),
+      Uri.parse('${getUrl()}${journal.id}'),
       headers: {"Authorization": "Bearer $token"},
       body: jsonJournal,
     );

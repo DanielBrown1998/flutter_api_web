@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:alura_web_api_app_v2/services/ip_server.dart' as ip;
 
 class AuthService {
-  //TODO: modularizar a url;
   static String url = ip.URL;
 
   http.Client client =

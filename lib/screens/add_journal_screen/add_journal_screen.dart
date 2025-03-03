@@ -61,7 +61,7 @@ class AddJournalScreen extends StatelessWidget {
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("atualizando...")));
-        service.edit(journal.id, journal, token: token).then((value) {
+        service.edit(journal, token: token).then((value) {
           Navigator.pop(context, value);
         });
       }
