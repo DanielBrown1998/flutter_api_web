@@ -29,6 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String? userId;
 
+  String? token;
+
   @override
   void initState() {
     refresh();
@@ -51,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.refresh_outlined))
         ],
       ),
-      body: (userId != null)
+      body: (userId != null && token != null)
           ? ListView(
               controller: _listScrollController,
               children: generateListJournalCards(
@@ -59,7 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   currentDay: currentDay,
                   database: database,
                   refresh: refresh,
-                  userId: userId!),
+                  userId: userId!, 
+                  token: token!),
             )
           : const Center(child: CircularProgressIndicator()),
     );
@@ -81,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
         });
         setState(() {
           userId = id;
+        this.token = token;
         });
       } else {
         Navigator.pushReplacementNamed(context, "login");

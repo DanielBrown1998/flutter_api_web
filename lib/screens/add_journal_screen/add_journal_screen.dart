@@ -49,18 +49,26 @@ class AddJournalScreen extends StatelessWidget {
     JournalService service = JournalService();
     journal.content = content;
     bool insert = false;
+    dynamic userId;
+    dynamic token;
     SharedPreferences.getInstance().then((prefs) {
+      token = prefs.getString('accessToken');
+      userId = prefs.getString('id');
+      if (token == null) {
+        Navigator.pop(context, null);
+      }
       service
-          .getAll(
-              id: prefs.getString('id') as String,
-              token: prefs.getString('accessToken') as String)
+          .getAll(id: userId as String, token: token as String)
           .then((listJournal) {
         for (Journal item in listJournal) {
           if (item.id == journal.id) {
             insert = true;
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text("atualizando...")));
-            service.edit(journal.id, journal).then((value) {
+            service
+                .edit(journal.id, journal,
+                    token: token as String)
+                .then((value) {
               Navigator.pop(context, value);
             });
             break;
@@ -72,8 +80,13 @@ class AddJournalScreen extends StatelessWidget {
     if (!insert) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("inserindo...")));
+      if (token == null) {
+              Navigator.pop(context, null);
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text("Não autorizado!")));
+            }      
 
-      service.register(journal).then((value) {
+      service.register(journal, token: token as String).then((value) {
         Navigator.pop(context, value);
       });
     }

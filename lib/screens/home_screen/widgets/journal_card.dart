@@ -10,12 +10,14 @@ class JournalCard extends StatelessWidget {
   final DateTime showedDate;
   final Function refresh;
   final String userId;
+  final String token;
   const JournalCard(
       {super.key,
       this.journal,
       required this.showedDate,
       required this.refresh,
-      required this.userId});
+      required this.userId, 
+      required this.token});
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +101,7 @@ class JournalCard extends StatelessWidget {
                           content: Text("registro não removido")));
                       return;
                     }
-                    service.removeJournal(journal!.id).then((value) {
+                    service.removeJournal(journal!.id, token).then((value) {
                       if (value) {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text("registro removido")));
