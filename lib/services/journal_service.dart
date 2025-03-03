@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:alura_web_api_app_v2/models/journal.dart';
 import 'package:alura_web_api_app_v2/services/http_interceptors.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http/http.dart';
 import 'package:alura_web_api_app_v2/services/ip_server.dart' as ip;
@@ -59,16 +60,13 @@ class JournalService {
     String jsonJournal = json.encode(journal.toMap());
     http.Response response = await client.put(
       Uri.parse('${getUrl()}$id'),
-      headers: {
-        "Content-type": "application/json",
-        "Authorization": "Bearer $token"
-      },
+      headers: {"Authorization": "Bearer $token"},
       body: jsonJournal,
     );
-    if (response.statusCode == 200) {
-      return true;
+    if (response.statusCode != 200) {
+      return false;
     }
-    return false;
+    return true;
   }
 
   Future<bool> removeJournal(String id, String token) async {
@@ -81,4 +79,9 @@ class JournalService {
     }
     return false;
   }
+}
+
+class JournalEditException implements Exception {
+  final String message;
+  JournalEditException(this.message);
 }

@@ -53,6 +53,19 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.refresh_outlined))
         ],
       ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            ListTile(
+              onTap: () {
+                logout();
+              },
+              title: const Text("Sair"),
+              leading: const Icon(Icons.exit_to_app),
+            ),
+          ],
+        ),
+      ),
       body: (userId != null && token != null)
           ? ListView(
               controller: _listScrollController,
@@ -61,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   currentDay: currentDay,
                   database: database,
                   refresh: refresh,
-                  userId: userId!, 
+                  userId: userId!,
                   token: token!),
             )
           : const Center(child: CircularProgressIndicator()),
@@ -84,11 +97,18 @@ class _HomeScreenState extends State<HomeScreen> {
         });
         setState(() {
           userId = id;
-        this.token = token;
+          this.token = token;
         });
       } else {
         Navigator.pushReplacementNamed(context, "login");
       }
+    });
+  }
+
+  logout() {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.clear();
+      Navigator.pushReplacementNamed(context, "login");
     });
   }
 }

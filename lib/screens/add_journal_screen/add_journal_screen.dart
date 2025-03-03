@@ -22,7 +22,7 @@ class AddJournalScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                registerJournal(context);
+                registerJournal(context, isEditing: journal.id.isNotEmpty);
               },
               icon: const Icon(Icons.check))
         ],
@@ -44,51 +44,27 @@ class AddJournalScreen extends StatelessWidget {
     );
   }
 
-  registerJournal(BuildContext context) async {
+  registerJournal(BuildContext context, {required bool isEditing}) async {
     String content = _contentController.text;
     JournalService service = JournalService();
     journal.content = content;
-    bool insert = false;
-    dynamic userId;
-    dynamic token;
+    bool insert = isEditing;
     SharedPreferences.getInstance().then((prefs) {
-      token = prefs.getString('accessToken');
-      userId = prefs.getString('id');
-      if (token == null) {
-        Navigator.pop(context, null);
+      String token = prefs.getString('accessToken') as String;
+      if (!insert) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("inserindo...")));
+
+        service.register(journal, token: token).then((value) {
+          Navigator.pop(context, value);
+        });
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("atualizando...")));
+        service.edit(journal.id, journal, token: token).then((value) {
+          Navigator.pop(context, value);
+        });
       }
-      service
-          .getAll(id: userId as String, token: token as String)
-          .then((listJournal) {
-        for (Journal item in listJournal) {
-          if (item.id == journal.id) {
-            insert = true;
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("atualizando...")));
-            service
-                .edit(journal.id, journal,
-                    token: token as String)
-                .then((value) {
-              Navigator.pop(context, value);
-            });
-            break;
-          }
-        }
-      });
     });
-
-    if (!insert) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("inserindo...")));
-      if (token == null) {
-              Navigator.pop(context, null);
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text("Não autorizado!")));
-            }      
-
-      service.register(journal, token: token as String).then((value) {
-        Navigator.pop(context, value);
-      });
-    }
   }
 }
