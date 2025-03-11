@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:alura_web_api_app_v2/models/journal.dart';
 import 'package:alura_web_api_app_v2/services/http_interceptors.dart';
@@ -23,10 +24,13 @@ class JournalService {
       },
       body: jsonJournal,
     );
-    if (response.statusCode == 201) {
-      return true;
+    if (response.statusCode != 201) {
+      if (json.decode(response.body) == "jwt expired") {
+        throw TokenNotValidException();
+      }
+      throw HttpException(response.body);
     }
-    return false;
+    return true;
   }
 
   Future<List<Journal>> getAll(
@@ -36,7 +40,10 @@ class JournalService {
       "Authorization": "Bearer $token",
     });
     if (response.statusCode != 200) {
-      throw Exception();
+      if (json.decode(response.body) == "jwt expired") {
+        throw TokenNotValidException();
+      }
+      throw HttpException(response.body);
     }
     List<Journal> lista = [];
     List<dynamic> listaDynamic = json.decode(response.body);
@@ -62,8 +69,11 @@ class JournalService {
       headers: {"Authorization": "Bearer $token"},
       body: jsonJournal,
     );
-    if (response.statusCode != 200) {
-      return false;
+    if (response.statusCode != 201) {
+      if (json.decode(response.body) == "jwt expired") {
+        throw TokenNotValidException();
+      }
+      throw HttpException(response.body);
     }
     return true;
   }
@@ -73,10 +83,13 @@ class JournalService {
       Uri.parse("${getUrl()}$id"),
       headers: {"Authorization": "Bearer $token"},
     );
-    if (response.statusCode == 200) {
-      return true;
+    if (response.statusCode != 200) {
+      if (json.decode(response.body) == "jwt expired") {
+        throw TokenNotValidException();
+      }
+      throw HttpException(response.body);
     }
-    return false;
+    return true;
   }
 }
 
@@ -84,3 +97,5 @@ class JournalEditException implements Exception {
   final String message;
   JournalEditException(this.message);
 }
+
+class TokenNotValidException implements Exception {}

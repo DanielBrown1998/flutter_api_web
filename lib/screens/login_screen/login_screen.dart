@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:alura_web_api_app_v2/screens/common/confirmation_dialog.dart';
+import 'package:alura_web_api_app_v2/screens/common/exception_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:alura_web_api_app_v2/services/auth_service.dart';
 
@@ -74,13 +75,21 @@ class LoginScreen extends StatelessWidget {
 
   login(BuildContext context,
       {required String email, required String password}) async {
-    try {
-      bool result = await authService.login(email: email, password: password);
+    authService.login(email: email, password: password).then(
+      (bool result) {
+        if (result) {
+          Navigator.pushReplacementNamed(context, "home");
+        }
+      },
+    ).catchError(
+      (error) {
+        var innerError = error as HttpException;
+        showExceptionDialog(context, message: innerError.message);
+      },
+      test: (error) => error is HttpException,
+    );
 
-      if (result) {
-        Navigator.pushReplacementNamed(context, "home");
-      }
-    } on UserNotFindException {
+    try {} on UserNotFindException {
       showConfirmationDialog(context,
               title: "Usuário não encontrado",
               content: "Deseja se registrar com os dados passados?",

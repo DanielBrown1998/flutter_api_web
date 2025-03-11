@@ -24,7 +24,7 @@ class AuthService {
         case "Cannot find user":
           throw UserNotFindException();
         default:
-          throw HttpException(response.statusCode as String);
+          throw HttpException(response.body);
       }
     }
     saveUserInfos(response.body);
@@ -39,7 +39,7 @@ class AuthService {
         await client.post(Uri.parse("${url}register"), body: data);
 
     if (response.statusCode != 201) {
-      throw UserNotRegisterException(response.statusCode as String);
+      throw UserNotRegisterException(response.body);
     }
     saveUserInfos(response.body);
     return true;
