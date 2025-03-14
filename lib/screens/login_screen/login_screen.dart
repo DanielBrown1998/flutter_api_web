@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:alura_web_api_app_v2/screens/common/confirmation_dialog.dart';
@@ -83,21 +84,24 @@ class LoginScreen extends StatelessWidget {
       },
     ).catchError(
       (error) {
+        showExceptionDialog(context, message: "Servidor inoperante");
+      },
+      test: (error) => error is TimeoutException,
+    ).catchError(
+      (error) {
         var innerError = error as HttpException;
         showExceptionDialog(context, message: innerError.message);
       },
       test: (error) => error is HttpException,
-    );
-
-    try {} on UserNotFindException {
-      showConfirmationDialog(context,
-              title: "Usuário não encontrado",
-              content: "Deseja se registrar com os dados passados?",
-              confirmation: "Registrar",
-              cancel: "Cancelar")
-          .then((value) {
-        if (value != null && value) {
-          try {
+    ).catchError(
+      (error) {
+        showConfirmationDialog(context,
+                title: "Usuário não encontrado",
+                content: "Deseja se registrar com os dados passados?",
+                confirmation: "Registrar",
+                cancel: "Cancelar")
+            .then((value) {
+          if (value != null && value) {
             authService
                 .register(email: email, password: password)
                 .then((bool value) {
@@ -110,28 +114,17 @@ class LoginScreen extends StatelessWidget {
                   ),
                 );
               }
-            });
-          } on (UserNotRegisterException,) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Usuário não foi registrado..."),
-                backgroundColor: Colors.red,
-              ),
+            }).catchError(
+              (error) {
+                var innerError = error as UserNotRegisterException;
+                showExceptionDialog(context, message: innerError.message);
+              },
+              test: (error) => error is UserNotRegisterException,
             );
-          } catch (error) {
-            print(error);
           }
-        }
-      });
-    } on HttpException catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Erro ${error.message}"),
-          backgroundColor: Colors.red,
-        ),
-      );
-    } on Exception catch (error) {
-      print("ERRO: $error");
-    }
+        });
+      },
+      test: (error) => error is UserNotFindException,
+    );
   }
 }

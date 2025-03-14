@@ -1,9 +1,14 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:alura_web_api_app_v2/screens/common/exception_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:alura_web_api_app_v2/helpers/weekday.dart';
 import 'package:alura_web_api_app_v2/models/journal.dart';
 import 'package:uuid/uuid.dart';
 import 'package:alura_web_api_app_v2/services/journal_service.dart';
 import 'package:alura_web_api_app_v2/screens/common/confirmation_dialog.dart';
+import 'package:alura_web_api_app_v2/screens/home_screen/home_screen.dart';
 
 class JournalCard extends StatelessWidget {
   final Journal? journal;
@@ -16,7 +21,7 @@ class JournalCard extends StatelessWidget {
       this.journal,
       required this.showedDate,
       required this.refresh,
-      required this.userId, 
+      required this.userId,
       required this.token});
 
   @override
@@ -106,12 +111,27 @@ class JournalCard extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text("registro removido")));
                         refresh();
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text("Houve um ERROR ao remover")));
                       }
-                    });
+                    }).catchError(
+                      (error) {
+                        logout(context);
+                      },
+                      test: (error) => error is TokenNotValidException,
+                    ).catchError(
+                      (error) {
+                        showExceptionDialog(context,
+                            message: "Servidor inoperante");
+                      },
+                      test: (error) => error is TimeoutException,
+                    ).catchError(
+                      (error) {
+                        var innerError = error as HttpException;
+                        showExceptionDialog(context,
+                            message: innerError.message);
+                      },
+                      test: (error) => error is HttpException,
+                    );
+                    ;
                   });
                 },
                 icon: const Icon(Icons.delete),
@@ -160,6 +180,23 @@ class JournalCard extends StatelessWidget {
             .showSnackBar(SnackBar(content: Text("registro não realizado")));
       }
       refresh();
-    });
+    }).catchError(
+      (error) {
+        logout(context);
+      },
+      test: (error) => error is TokenNotValidException,
+    ).catchError(
+      (error) {
+        showExceptionDialog(context, message: "Servidor inoperante");
+      },
+      test: (error) => error is TimeoutException,
+    ).catchError(
+      (error) {
+        var innerError = error as HttpException;
+        showExceptionDialog(context, message: innerError.message);
+      },
+      test: (error) => error is HttpException,
+    );
+    ;
   }
 }

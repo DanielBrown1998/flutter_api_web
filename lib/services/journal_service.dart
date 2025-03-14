@@ -2,19 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:alura_web_api_app_v2/models/journal.dart';
-import 'package:alura_web_api_app_v2/services/http_interceptors.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_interceptor/http/http.dart';
-import 'package:alura_web_api_app_v2/services/ip_server.dart' as ip;
+import 'package:alura_web_api_app_v2/services/web_client.dart';
 
 class JournalService {
-  static String url = ip.URL;
+  static String url = WebClient.URL;
   static const String resource = "journals/";
   static String getUrl() => "$url$resource";
-  http.Client client =
-      InterceptedClient.build(interceptors: [LoggingInterceptor()]);
+
+  http.Client client = WebClient().client;
 
   Future<bool> register(Journal journal, {required String token}) async {
+    
     String jsonJournal = json.encode(journal.toMap());
     http.Response response = await client.post(
       Uri.parse(getUrl()),

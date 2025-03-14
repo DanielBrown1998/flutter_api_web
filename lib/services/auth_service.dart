@@ -1,23 +1,22 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:http_interceptor/http/http.dart';
 import 'package:http/http.dart' as http;
-import 'package:alura_web_api_app_v2/services/http_interceptors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:alura_web_api_app_v2/services/ip_server.dart' as ip;
+import 'package:alura_web_api_app_v2/services/web_client.dart';
 
 class AuthService {
-  static String url = ip.URL;
+  static String url = WebClient.URL;
 
-  http.Client client =
-      InterceptedClient.build(interceptors: [LoggingInterceptor()]);
+  http.Client client = WebClient().client;
 
   Future<bool> login({required String email, required String password}) async {
     Map<String, dynamic> data = {"email": email, "password": password};
 
     http.Response response =
         await client.post(Uri.parse("${url}login"), body: data);
+
+  
     if (response.statusCode != 200) {
       String content = json.decode(response.body);
       switch (content) {

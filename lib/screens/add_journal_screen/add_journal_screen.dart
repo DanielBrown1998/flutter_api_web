@@ -1,8 +1,13 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:alura_web_api_app_v2/helpers/weekday.dart';
 import 'package:alura_web_api_app_v2/models/journal.dart';
+import 'package:alura_web_api_app_v2/screens/common/exception_dialog.dart';
 import 'package:alura_web_api_app_v2/services/journal_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:alura_web_api_app_v2/screens/home_screen/home_screen.dart';
 
 class AddJournalScreen extends StatelessWidget {
   final Journal journal;
@@ -63,8 +68,41 @@ class AddJournalScreen extends StatelessWidget {
             .showSnackBar(SnackBar(content: Text("atualizando...")));
         service.edit(journal, token: token).then((value) {
           Navigator.pop(context, value);
-        });
+        }).catchError(
+          (error) {
+            logout(context);
+          },
+          test: (error) => error is TokenNotValidException,
+        ).catchError(
+          (error) {
+            showExceptionDialog(context, message: "Servidor inoperante");
+          },
+          test: (error) => error is TimeoutException,
+        ).catchError(
+          (error) {
+            var innerError = error as HttpException;
+            showExceptionDialog(context, message: innerError.message);
+          },
+          test: (error) => error is HttpException,
+        );
+        ;
       }
-    });
+    }).catchError(
+      (error) {
+        logout(context);
+      },
+      test: (error) => error is TokenNotValidException,
+    ).catchError(
+      (error) {
+        showExceptionDialog(context, message: "Servidor inoperante");
+      },
+      test: (error) => error is TimeoutException,
+    ).catchError(
+      (error) {
+        var innerError = error as HttpException;
+        showExceptionDialog(context, message: innerError.message);
+      },
+      test: (error) => error is HttpException,
+    );
   }
 }

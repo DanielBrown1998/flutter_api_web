@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:alura_web_api_app_v2/screens/common/exception_dialog.dart';
 import 'package:flutter/material.dart';
 //import 'package:alura_web_api_app_v2/database/database.dart';
 import 'package:alura_web_api_app_v2/screens/home_screen/widgets/home_screen_list.dart';
@@ -58,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             ListTile(
               onTap: () {
-                logout();
+                logout(context);
               },
               title: const Text("Sair"),
               leading: const Icon(Icons.exit_to_app),
@@ -94,7 +98,23 @@ class _HomeScreenState extends State<HomeScreen> {
               database[journal.id] = journal;
             }
           });
-        });
+        }).catchError(
+          (error) {
+            logout(context);
+          },
+          test: (error) => error is TokenNotValidException,
+        ).catchError(
+          (error) {
+            showExceptionDialog(context, message: "Servidor inoperante");
+          },
+          test: (error) => error is TimeoutException,
+        ).catchError(
+          (error) {
+            var innerError = error as HttpException;
+            showExceptionDialog(context, message: innerError.message);
+          },
+          test: (error) => error is HttpException,
+        );
         setState(() {
           userId = id;
           this.token = token;
@@ -104,11 +124,11 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
   }
+}
 
-  logout() {
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.clear();
-      Navigator.pushReplacementNamed(context, "login");
-    });
-  }
+void logout(BuildContext context) {
+  SharedPreferences.getInstance().then((prefs) {
+    prefs.clear();
+    Navigator.pushReplacementNamed(context, "login");
+  });
 }
