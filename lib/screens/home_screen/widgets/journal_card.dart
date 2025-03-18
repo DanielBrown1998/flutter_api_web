@@ -131,7 +131,6 @@ class JournalCard extends StatelessWidget {
                       },
                       test: (error) => error is HttpException,
                     );
-                    ;
                   });
                 },
                 icon: const Icon(Icons.delete),
@@ -197,6 +196,5 @@ class JournalCard extends StatelessWidget {
       },
       test: (error) => error is HttpException,
     );
-    ;
   }
 }

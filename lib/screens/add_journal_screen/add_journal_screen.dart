@@ -85,7 +85,6 @@ class AddJournalScreen extends StatelessWidget {
           },
           test: (error) => error is HttpException,
         );
-        ;
       }
     }).catchError(
       (error) {

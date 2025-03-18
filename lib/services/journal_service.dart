@@ -13,7 +13,6 @@ class JournalService {
   http.Client client = WebClient().client;
 
   Future<bool> register(Journal journal, {required String token}) async {
-    
     String jsonJournal = json.encode(journal.toMap());
     http.Response response = await client.post(
       Uri.parse(getUrl()),
@@ -62,6 +61,7 @@ class JournalService {
   }
 
   Future<bool> edit(Journal journal, {required String token}) async {
+    journal.updatedAt = DateTime.now();
     String jsonJournal = json.encode(journal.toMap());
     http.Response response = await client.put(
       Uri.parse('${getUrl()}${journal.id}'),
